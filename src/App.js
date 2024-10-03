@@ -1,25 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Sidebar from "./components/Sidebar";
+import Node from "./components/Node";
+
+import { Box } from "@mui/material";
+import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, useReactFlow } from "@xyflow/react";
+
+const initialNodes = [];
+const initialEdges = [];
+
+const App = () => {
+    const [nodes, setNodes] = useState(initialNodes);
+    const [edges, setEdges] = useState(initialEdges);
+
+    const { getViewport } = useReactFlow();
+
+    const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
+    const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
+    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+
+    const onDrop = (e) => {
+        e.preventDefault();
+        const reactFlowBounds = e.target.getBoundingClientRect();
+        const nodeData = e.dataTransfer.getData("application/reactflow");
+
+        if (!nodeData) {
+            return;
+        }
+
+        const node = JSON.parse(nodeData);
+
+        const { x: scaleX, y: scaleY, zoom } = getViewport();
+
+        const position = {
+            x: (e.clientX - reactFlowBounds.left - scaleX) / zoom,
+            y: (e.clientY - reactFlowBounds.top - scaleY) / zoom,
+        };
+
+        const id = `${nodes.length + 1}`;
+
+        const newNode = {
+            id,
+            data: { label: node.data.label, text: node.data.text },
+            position,
+            type: "custom",
+        };
+
+        setNodes((nds) => [...nds, newNode]);
+    };
+
+    const onDragOver = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+    };
+
+    return (
+        <Box display="flex" height="100vh" width="100%">
+            <Box bgcolor="#f0f0f0" padding={1}>
+                <Sidebar />
+            </Box>
+            <Box flexGrow={1} bgcolor="#ffffff" padding={2} onDrop={onDrop} onDragOver={onDragOver}>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onEdgesChange={onEdgesChange}
+                    onNodesChange={onNodesChange}
+                    onConnect={onConnect}
+                    nodeOrigin={[0.5, 0.5]}
+                    nodeTypes={{ custom: Node }}
+                    className="reactFlow"></ReactFlow>
+            </Box>
+        </Box>
+    );
+};
 
 export default App;
