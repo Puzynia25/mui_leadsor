@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/mui_leadsor/static/css/main.77df2392.css",
+    "main.js": "/mui_leadsor/static/js/main.90cbf67e.js",
+    "index.html": "/mui_leadsor/index.html",
+    "main.77df2392.css.map": "/mui_leadsor/static/css/main.77df2392.css.map",
+    "main.90cbf67e.js.map": "/mui_leadsor/static/js/main.90cbf67e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.77df2392.css",
+    "static/js/main.90cbf67e.js"
+  ]
+}
