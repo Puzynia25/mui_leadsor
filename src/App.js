@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./features/Sidebar/Sidebar";
 import Node from "./components/Node";
 
 import { Box } from "@mui/material";
