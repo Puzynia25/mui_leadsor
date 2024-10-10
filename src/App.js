@@ -5,6 +5,7 @@ import Node from "./components/Node";
 
 import { Box } from "@mui/material";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, useReactFlow } from "@xyflow/react";
+import SettingsMenu from "./features/SettingsMenu/SettingsMenu";
 
 const initialNodes = [];
 const initialEdges = [];
@@ -12,6 +13,9 @@ const initialEdges = [];
 const App = () => {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
+    const [settingNode, setSettingNode] = useState(null);
+
+    const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
     const { getViewport } = useReactFlow();
 
@@ -54,6 +58,16 @@ const App = () => {
         e.dataTransfer.dropEffect = "move";
     };
 
+    const handleNodeClick = (e, node) => {
+        setShowSettingsMenu(true);
+        setSettingNode(node);
+    };
+
+    const handleCloseSettingMenu = () => {
+        setShowSettingsMenu(false);
+        setSettingNode(null);
+    };
+
     return (
         <Box display="flex" height="100vh" width="100%">
             <Box bgcolor="#f0f0f0" padding={1}>
@@ -66,10 +80,13 @@ const App = () => {
                     onEdgesChange={onEdgesChange}
                     onNodesChange={onNodesChange}
                     onConnect={onConnect}
+                    onNodeClick={handleNodeClick}
                     nodeOrigin={[0.5, 0.5]}
                     nodeTypes={{ custom: Node }}
                     className="reactFlow"></ReactFlow>
             </Box>
+
+            {showSettingsMenu && <SettingsMenu node={settingNode} onClose={handleCloseSettingMenu} />}
         </Box>
     );
 };
