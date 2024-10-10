@@ -1,19 +1,13 @@
-import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { Handle, Position } from "@xyflow/react";
+import ButtonNode from "./ButtonNode";
 
 const Node = ({ data }) => {
     const renderBtns = (btns) => {
         if (!data.buttons || data.buttons.length === 0) {
             return null;
         }
-        return btns.map((btn) => (
-            <Box key={btn.id} position="relative">
-                <Button variant="contained" fullWidth>
-                    {btn.text}
-                </Button>
-                <Handle type="source" position={Position.Right} id={`${btn.id}-source`} className="handle" />
-            </Box>
-        ));
+        return btns.map((btn) => <ButtonNode key={btn.id} btn={btn} />);
     };
     const btns = renderBtns(data.buttons);
 
@@ -34,7 +28,7 @@ const Node = ({ data }) => {
                     cursor: "move",
                     borderRadius: "15px",
                     width: "250px",
-                    zIndex: 4,
+                    bgcolor: "rgba(255, 255, 255, 0.8)",
                 }}>
                 <CardContent>
                     <Typography
