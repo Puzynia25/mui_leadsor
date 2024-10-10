@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 import Sidebar from "./features/Sidebar/Sidebar";
 import Node from "./components/Node";
@@ -6,9 +6,12 @@ import Node from "./components/Node";
 import { Box } from "@mui/material";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, useReactFlow } from "@xyflow/react";
 import SettingsMenu from "./features/SettingsMenu/SettingsMenu";
+import { v4 as uuidv4 } from "uuid";
 
 const initialNodes = [];
 const initialEdges = [];
+
+const nodeTypes = { custom: Node };
 
 const App = () => {
     const [nodes, setNodes] = useState(initialNodes);
@@ -41,10 +44,8 @@ const App = () => {
             y: (e.clientY - reactFlowBounds.top - scaleY) / zoom,
         };
 
-        const id = `${nodes.length + 1}`;
-
         const newNode = {
-            id,
+            id: uuidv4(),
             data: { label: node.data.label, text: node.data.text },
             position,
             type: "custom",
@@ -68,6 +69,28 @@ const App = () => {
         setSettingNode(null);
     };
 
+    // Добавление кнопки к ноде
+    const handleAddButtonToNode = (nodeId, buttonText) => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === nodeId) {
+                    const newButton = {
+                        id: uuidv4(),
+                        text: buttonText,
+                    };
+                    return {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            buttons: [...(node.data.buttons || []), newButton],
+                        },
+                    };
+                }
+                return node;
+            })
+        );
+    };
+
     return (
         <Box display="flex" height="100vh" width="100%">
             <Box bgcolor="#f0f0f0" padding={1}>
@@ -82,11 +105,17 @@ const App = () => {
                     onConnect={onConnect}
                     onNodeClick={handleNodeClick}
                     nodeOrigin={[0.5, 0.5]}
-                    nodeTypes={{ custom: Node }}
+                    nodeTypes={nodeTypes}
                     className="reactFlow"></ReactFlow>
             </Box>
 
-            {showSettingsMenu && <SettingsMenu node={settingNode} onClose={handleCloseSettingMenu} />}
+            {showSettingsMenu && (
+                <SettingsMenu
+                    node={settingNode}
+                    onClose={handleCloseSettingMenu}
+                    onAddButtonToNode={handleAddButtonToNode}
+                />
+            )}
         </Box>
     );
 };
