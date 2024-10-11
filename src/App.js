@@ -69,7 +69,7 @@ const App = () => {
         setSettingNode(null);
     };
 
-    // Добавление кнопки к ноде
+    // Add button to node
     const handleAddButtonToNode = (nodeId, buttonText) => {
         setNodes((nds) =>
             nds.map((node) => {
@@ -78,13 +78,68 @@ const App = () => {
                         id: uuidv4(),
                         text: buttonText,
                     };
-                    return {
+                    const updatedNode = {
                         ...node,
                         data: {
                             ...node.data,
                             buttons: [...(node.data.buttons || []), newButton],
                         },
                     };
+
+                    if (settingNode && settingNode.id === nodeId) {
+                        setSettingNode(updatedNode);
+                    }
+
+                    return updatedNode;
+                }
+                return node;
+            })
+        );
+    };
+
+    const handleUpdateButton = (nodeId, btnId, newText) => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === nodeId) {
+                    const updatedNode = {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            buttons: node.data.buttons.map((btn) =>
+                                btn.id === btnId ? { ...btn, text: newText } : btn
+                            ),
+                        },
+                    };
+
+                    if (settingNode && settingNode.id === nodeId) {
+                        setSettingNode(updatedNode);
+                    }
+
+                    return updatedNode;
+                }
+
+                return node;
+            })
+        );
+    };
+
+    const handleDeleteButton = (nodeId, btnId) => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === nodeId) {
+                    const updatedNode = {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            buttons: node.data.buttons.filter((btn) => btn.id !== btnId),
+                        },
+                    };
+
+                    if (settingNode && settingNode.id === nodeId) {
+                        setSettingNode(updatedNode);
+                    }
+
+                    return updatedNode;
                 }
                 return node;
             })
@@ -114,6 +169,8 @@ const App = () => {
                     node={settingNode}
                     onClose={handleCloseSettingMenu}
                     onAddButtonToNode={handleAddButtonToNode}
+                    onUpdateButton={handleUpdateButton}
+                    onDeleteButton={handleDeleteButton}
                 />
             )}
         </Box>
