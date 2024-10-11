@@ -1,10 +1,17 @@
-import { useRef } from "react";
-import { Box, Button, Divider, TextField, Typography, IconButton } from "@mui/material";
+import { useRef, useState } from "react";
+import { Box, Button, Divider, TextField, Typography, IconButton, TextareaAutosize } from "@mui/material";
 import { Edit, DeleteRounded } from "@mui/icons-material";
 
-const SettingsMenu = ({ node, onClose, onAddButtonToNode, onUpdateButton, onDeleteButton }) => {
+const SettingsMenu = ({ node, onClose, onUpdateNodeText, onAddButtonToNode, onUpdateButton, onDeleteButton }) => {
     const buttonTextRef = useRef(null);
     const buttonRefs = useRef({});
+
+    const [nodeText, setNodeText] = useState(node.data.text);
+
+    const handleUpdateNodeText = (e) => {
+        setNodeText(e.target.value);
+        onUpdateNodeText(node.id, e.target.value);
+    };
 
     const handleAddButtonClick = (id) => {
         const buttonText = buttonTextRef.current.value;
@@ -54,6 +61,22 @@ const SettingsMenu = ({ node, onClose, onAddButtonToNode, onUpdateButton, onDele
                 <Divider />
                 <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
                     <Box p={2}>
+                        <Box>
+                            <TextareaAutosize
+                                placeholder="type text here..."
+                                minRows={3}
+                                style={{
+                                    width: "100%",
+                                    padding: "8px",
+                                    borderRadius: "15px",
+                                    borderColor: "lightgray",
+                                    resize: "vertical",
+                                }}
+                                value={nodeText}
+                                onChange={handleUpdateNodeText}
+                            />
+                        </Box>
+
                         {/* Current buttons */}
                         <Box marginTop={2}>{btns}</Box>
 

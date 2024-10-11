@@ -69,6 +69,25 @@ const App = () => {
         setSettingNode(null);
     };
 
+    const handleUpdateNodeText = (nodeId, newText) => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === nodeId) {
+                    const updatedNode = {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            text: newText,
+                        },
+                    };
+
+                    return updatedNode;
+                }
+                return node;
+            })
+        );
+    };
+
     // Add button to node
     const handleAddButtonToNode = (nodeId, buttonText) => {
         setNodes((nds) =>
@@ -168,6 +187,7 @@ const App = () => {
                 <SettingsMenu
                     node={settingNode}
                     onClose={handleCloseSettingMenu}
+                    onUpdateNodeText={handleUpdateNodeText}
                     onAddButtonToNode={handleAddButtonToNode}
                     onUpdateButton={handleUpdateButton}
                     onDeleteButton={handleDeleteButton}

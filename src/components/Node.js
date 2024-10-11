@@ -46,7 +46,7 @@ const Node = ({ data }) => {
                         <Typography
                             variant="body1"
                             component="p"
-                            color="text.secondary"
+                            color="textSecondary"
                             bgcolor="#eee"
                             fontSize="14px"
                             padding={1}
