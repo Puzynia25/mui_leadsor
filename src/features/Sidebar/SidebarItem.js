@@ -1,8 +1,8 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { iconMap } from "../../utils/iconMap";
+import useNode from "../../hooks/useNode";
 
 const SidebarItem = ({ node, onDragStart }) => {
-    const icon = iconMap[node.data.label] || null;
+    const { icon } = useNode(node.data.label, node.data);
 
     return (
         <Box textAlign="center" marginBottom={2} sx={{ cursor: "pointer" }}>

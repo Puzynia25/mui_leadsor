@@ -1,16 +1,5 @@
+import { nodes } from "../../utils/nodes";
 import SidebarItem from "./SidebarItem";
-
-const nodes = [
-    {
-        id: "1",
-        data: {
-            label: "Message",
-            text: "Didn't quite understand your answer or question, so I suggest you start the transfer process over again",
-        },
-    },
-    { id: "2", data: { label: "Pause", text: "Delay of 3 seconds" } },
-    { id: "3", data: { label: "Chain", text: "Start another chain" } },
-];
 
 const Sidebar = ({}) => {
     const onDragStart = (e, node) => {
