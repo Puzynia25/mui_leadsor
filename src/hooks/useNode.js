@@ -1,16 +1,8 @@
-import FilterNode from "../nodeTypes/filterNode";
-import MessageNode from "../nodeTypes/messageNode";
-import PauseNode from "../nodeTypes/pauseNode";
-
-const nodeMap = {
-    Message: MessageNode,
-    Filter: FilterNode,
-    Pause: PauseNode,
-};
+import { nodeMap } from "../utils/nodeMap";
 
 const useNode = (type, data) => {
     const nodeComponent = nodeMap[type];
-    return nodeComponent(data);
+    return nodeComponent.nodeContent(data);
 };
 
 export default useNode;
