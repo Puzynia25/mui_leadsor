@@ -1,7 +1,7 @@
 import { nodes } from "../../utils/nodes";
 import SidebarItem from "./SidebarItem";
 
-const Sidebar = ({}) => {
+const Sidebar = () => {
     const onDragStart = (e, node) => {
         e.dataTransfer.setData("application/reactflow", JSON.stringify(node));
         e.dataTransfer.effectAllowed = "move";

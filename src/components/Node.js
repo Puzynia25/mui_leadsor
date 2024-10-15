@@ -1,28 +1,24 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import { Handle, Position } from "@xyflow/react";
-import ButtonNode from "./ButtonNode";
 import useNode from "../hooks/useNode";
 
 const Node = ({ data }) => {
-    // const renderBtns = (btns) => {
-    //     if (!data.buttons || data.buttons.length === 0) {
-    //         return null;
-    //     }
-    //     return btns.map((btn) => <ButtonNode key={btn.id} btn={btn} />);
-    // };
-    // const btns = renderBtns(data.buttons);
-
     const { color, content } = useNode(data.label, data);
 
     return (
         <>
             <Handle type="target" position={Position.Left} id={`${data.id}-target`} className="handle" />
             <Card
+                tabIndex={0}
                 sx={{
                     cursor: "move",
                     borderRadius: "15px",
                     width: "250px",
-                    bgcolor: "rgba(255, 255, 255, 0.8)",
+                    bgcolor: "rgba(255, 255, 255, 0.7)",
+                    "&:focus": {
+                        border: "2px solid #16a635",
+                        boxShadow: "0px 0px 0px 3px rgba(25, 210, 90, 0.3)",
+                    },
                 }}>
                 <CardContent>
                     <Typography
