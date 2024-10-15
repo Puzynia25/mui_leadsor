@@ -25,10 +25,10 @@ const PauseNode = (data) => {
                         padding="0 8px"
                         marginX={0.5}>
                         <Typography fontSize="14px" color="black" component="span">
-                            {data.text}
+                            {data.pause}
                         </Typography>
                     </Box>
-                    minutes
+                    {data.text}
                 </Typography>
             </Box>
         ),

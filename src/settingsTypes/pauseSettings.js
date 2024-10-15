@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, MenuItem, Select, TextField } from "@mui/material";
+import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 const PauseSettings = ({ node, onUpdateNodeText, onUpdateNodePause }) => {
     const [pause, setPause] = useState(node.data.pause);
@@ -19,7 +19,8 @@ const PauseSettings = ({ node, onUpdateNodeText, onUpdateNodePause }) => {
         content: (
             <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
                 <Box p={2}>
-                    <Box display="flex" gap={2}>
+                    <Typography>Enter the pause duration:</Typography>
+                    <Box display="flex" gap={2} mt={2}>
                         <TextField
                             value={pause}
                             size="medium"

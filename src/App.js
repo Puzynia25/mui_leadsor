@@ -46,7 +46,7 @@ const App = () => {
 
         const newNode = {
             id: uuidv4(),
-            data: { label: node.data.label, text: node.data.text },
+            data: { ...node.data },
             position,
             type: "custom",
         };
@@ -165,6 +165,25 @@ const App = () => {
         );
     };
 
+    const handleUpdateNodePause = (nodeId, newPause) => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === nodeId) {
+                    const updatedNode = {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            pause: newPause,
+                        },
+                    };
+
+                    return updatedNode;
+                }
+                return node;
+            })
+        );
+    };
+
     return (
         <Box display="flex" height="100vh" width="100%">
             <Box bgcolor="#f0f0f0" padding={1}>
@@ -191,6 +210,7 @@ const App = () => {
                     onAddButtonToNode={handleAddButtonToNode}
                     onUpdateButton={handleUpdateButton}
                     onDeleteButton={handleDeleteButton}
+                    onUpdateNodePause={handleUpdateNodePause}
                 />
             )}
         </Box>
